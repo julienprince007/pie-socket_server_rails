@@ -4,6 +4,15 @@ class UserController < ApplicationController
     render json: users
   end
 
+  def search
+    user = User.where(username: user_params[:username])
+    if user.present?
+      render json: user[0]
+    else
+      render json: { message: 'user not found' }
+    end
+  end
+
   def create
     user = User.new(username: user_params[:username])
     if user.save

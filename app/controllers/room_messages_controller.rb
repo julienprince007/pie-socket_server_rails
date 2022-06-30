@@ -23,7 +23,7 @@ class RoomMessagesController < ApplicationController
         key: 'VCXCEuvhGcBDP7XhiJJUDvR1e1D3eiVjgZ9VRiaV', # NOTE: Demo API Key, get yours at https://piesocket.com
         secret: 'Fvev5c0k59VZ1jRLWuj5URyF5idSdHWm', # NOTE: Demo API Secret, get yours at https://piesocket.com
         channelId: room_message_params[:room_id],
-        message: { "message": room_message.message }
+        message: { "event": room_message_params[:type], "data": { "message": room_message } } # NOTE: ici pour publier vers le server socket
       }.to_json
       response = https.request(request)
       puts "response soket #{response.read_body}"
@@ -36,6 +36,6 @@ class RoomMessagesController < ApplicationController
   private
 
   def room_message_params
-    params.permit(:user_id, :room_id, :message)
+    params.permit(:user_id, :room_id, :message, :type)
   end
 end
